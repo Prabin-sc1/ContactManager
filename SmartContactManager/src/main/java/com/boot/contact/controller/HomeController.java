@@ -3,6 +3,7 @@ package com.boot.contact.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.boot.contact.entities.User;
 import com.boot.contact.helper.MyMessage;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class HomeController {
@@ -43,16 +45,20 @@ public class HomeController {
 
 	// handler for registering user
 	@PostMapping("/register")
-	public String registerUser(@ModelAttribute("user") User user,
+	public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult result1,
 			@RequestParam(value = "agreement", defaultValue = "false") boolean agreement, Model model,
 			HttpSession session) {
-
-		
 
 		try {
 			if (!agreement) {
 				System.out.println("You haven't agreed terms and conditions.");
 				throw new Exception("You haven't agreed terms and conditions.");
+			}
+
+			if (result1.hasErrors()) {
+				System.out.println("Error " + result1.toString());
+				model.addAttribute("user", user);	
+				return "signup";
 			}
 			user.setRole("Role_user");
 			user.setEnabled(true);

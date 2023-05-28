@@ -13,21 +13,14 @@
 				<div class="col-md-6 offset-md-3">
 					<!-- 3 6 3  -->
 					<div class="mycard mt-3">
-						<!-- 
-						<div th:if="${#session.message}"
-							th:classappend="${#session.message.type}" class="alert"
-							role="alert"> -->
 
-						<!-- 
-							<p class="text-center" th:text="${#session.message.content}"></p>
-							<th:block th:text="${#session.removeAttribute('message')}"></th:block> -->
-						<!-- 	</div> -->
 						<div th:if="${session.message}"
 							th:classappend="${session.message.type}" class="alert"
 							role="alert">
 							<p class="text-center" th:text="${session.message.content}"></p>
 
 							<!-- <th:block th:text="${#session.removeAttribute('message')}"></th:block> -->
+							<!-- error occurred in above line -->
 						</div>
 
 						<h1 class="text-center">Register Here</h1>
@@ -36,28 +29,49 @@
 							<!-- name field -->
 							<div class="form-group">
 								<label for="nameField">User name</label> <input name="name"
-									type="text" class="form-control" id="nameField"
-									placeholder="Enter name" required="required"
-									th:value="${user.name}">
+									type="text" class="form-control "
+									th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}"
+									id="nameField" placeholder="Enter name" th:value="${user.name}">
+
+
+								<div th:each="e : ${#fields.errors('name')}"
+									class="invalid-feedback" th:text="${e}"></div>
 
 							</div>
 							<div class="form-group">
 								<label for="emailField">Email address</label> <input
-									name="email" type="email" class="form-control" id="emailField"
-									placeholder="email@example.com" th:value="${user.email}"
-									required="required">
+									name="email" type="email" class="form-control"
+									th:classappend="${#fields.hasErrors('email') ? 'is-invalid' : ''}"
+									 id="emailField"
+									placeholder="email@example.com" th:value="${user.email}">
+
+
+								<div th:each="e : ${#fields.errors('email')}"
+									class="invalid-feedback" th:text="${e}"></div>
 							</div>
 							<div class="form-group">
 								<label for="passwordField">Password</label> <input
-									name="password" type="password" class="form-control"
-									id="passwordField" placeholder="Password" required="required">
+									name="password" type="password"
+									th:classappend="${#fields.hasErrors('password') ? 'is-invalid' : ''}"
+									 class="form-control"
+									id="passwordField" placeholder="Password">
+
+								<div th:each="e : ${#fields.errors('password')}"
+									class="invalid-feedback" th:text="${e}"></div>
+
 							</div>
 
 							<!-- about  -->
 							<div class="form-group">
 								<textarea name="about"
 									placeholder="Write something about yourself..."
-									class="form-control" rows="8" th:value="${user.about}"></textarea>
+									class="form-control" rows="8" th:text="${user.about}"
+									th:classappend="${#fields.hasErrors('about') ? 'is-invalid' : ''}"
+									></textarea>
+									
+								<div th:each="e : ${#fields.errors('about')}"
+									class="invalid-feedback" th:text="${e}"></div>
+
 							</div>
 
 							<!-- terms and conditions agreement -->
