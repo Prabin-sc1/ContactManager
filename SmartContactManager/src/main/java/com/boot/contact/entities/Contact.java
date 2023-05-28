@@ -6,10 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "CONTACT")
 public class Contact {
 
 	@Id
@@ -21,7 +19,7 @@ public class Contact {
 	private String email;
 	private String phone;
 	private String image;
-	@Column(length = 5000)
+	@Column(length = 500)
 	private String description;
 
 	@ManyToOne
