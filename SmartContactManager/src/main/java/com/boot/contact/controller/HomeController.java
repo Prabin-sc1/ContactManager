@@ -20,4 +20,10 @@ public class HomeController {
 	public String signup() {
 		return "signup";
 	}
+
+	@RequestMapping("/login")
+	public String login() {
+		return "login";
+	}
+
 }
