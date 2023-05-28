@@ -10,51 +10,68 @@
 	<section>
 		<div class="container">
 			<div class="row">
-				<div class="col-md-6 offset-md-3"><!-- 3 6 3  -->
+				<div class="col-md-6 offset-md-3">
+					<!-- 3 6 3  -->
 					<div class="mycard mt-3">
-					<!-- <div class="container text-center">
-					<img style="width:80px;"src="" alt="" th:src="@{/image/signup.png}" />
-					</div> -->
+						<!-- 
+						<div th:if="${#session.message}"
+							th:classappend="${#session.message.type}" class="alert"
+							role="alert"> -->
+
+						<!-- 
+							<p class="text-center" th:text="${#session.message.content}"></p>
+							<th:block th:text="${#session.removeAttribute('message')}"></th:block> -->
+						<!-- 	</div> -->
+						<div th:if="${session.message}"
+							th:classappend="${session.message.type}" class="alert"
+							role="alert">
+							<p class="text-center" th:text="${session.message.content}"></p>
+
+							<!-- <th:block th:text="${#session.removeAttribute('message')}"></th:block> -->
+						</div>
+
 						<h1 class="text-center">Register Here</h1>
-						<form th:action="@{/register}" method="post">
+						<form th:action="@{/register}" method="post" th:object="${user}">
 
 							<!-- name field -->
 							<div class="form-group">
-								<label for="nameField">User name</label> 
-								<input
-									type="text" 
-									class="form-control"
-									id="nameField"
-									placeholder="Enter name" required="required">
-									
+								<label for="nameField">User name</label> <input name="name"
+									type="text" class="form-control" id="nameField"
+									placeholder="Enter name" required="required"
+									th:value="${user.name}">
+
 							</div>
 							<div class="form-group">
-								<label for="emailField">Email address</label> 
-								<input
-									type="email" 
-									class="form-control"
-									id="emailField"
-									placeholder="email@example.com">
+								<label for="emailField">Email address</label> <input
+									name="email" type="email" class="form-control" id="emailField"
+									placeholder="email@example.com" th:value="${user.email}"
+									required="required">
 							</div>
 							<div class="form-group">
-								<label for="passwordField">Password</label> 
-								<input
-									type="password"
-									 class="form-control"
-									id="passwordField" 
-									placeholder="Password">
+								<label for="passwordField">Password</label> <input
+									name="password" type="password" class="form-control"
+									id="passwordField" placeholder="Password" required="required">
 							</div>
-							
-							<!-- about  -->				
+
+							<!-- about  -->
 							<div class="form-group">
-							<textarea placeholder="Write something about yourself..." class="form-control" rows="8"  ></textarea>
+								<textarea name="about"
+									placeholder="Write something about yourself..."
+									class="form-control" rows="8" th:value="${user.about}"></textarea>
 							</div>
-							
+
+							<!-- terms and conditions agreement -->
+							<div class="form-group form-check ">
+								<input name="agreement" type="checkbox" class="form-check-input" />
+								<label for="agreement">Accept terms and conditions</label>
+							</div>
+
 							<div class="container text-center">
-							<button type="submit" class="btn bg-primary text-white">Sign in</button>
-							<button type="reset" class="btn btn-dark text-white">Reset</button>
+								<button type="submit" class="btn bg-primary text-white">Sign
+									up</button>
+								<button type="reset" class="btn btn-dark text-white">Reset</button>
 							</div>
-							
+
 						</form>
 					</div>
 				</div>
