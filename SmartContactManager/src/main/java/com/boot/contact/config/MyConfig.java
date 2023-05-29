@@ -36,11 +36,11 @@ public class MyConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/user/**")
-				.hasRole("USER").requestMatchers("/**").permitAll().and().formLogin().loginPage("/signin").and().csrf().disable();
+				.hasRole("USER").requestMatchers("/**").permitAll().and().formLogin().loginPage("/signin")
+				.loginProcessingUrl("/dologin").defaultSuccessUrl("/user/index").failureUrl("/login-fail").and().csrf().disable();
 		http.authenticationProvider(authenticationProvider());
 		DefaultSecurityFilterChain build = http.build();
 		return build;
-
 	}
 
 }
