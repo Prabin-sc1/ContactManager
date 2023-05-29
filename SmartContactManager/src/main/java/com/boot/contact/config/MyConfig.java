@@ -32,10 +32,7 @@ public class MyConfig {
 		return daoAuthenticationProvider;
 	}
 
-//	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-//		http.authorizeRequests()
-//	}
-
+//this is where magic happens for role based application
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/user/**")

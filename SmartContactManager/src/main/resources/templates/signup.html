@@ -52,12 +52,10 @@
 							<div class="form-group">
 								<label for="passwordField">Password</label> <input
 									name="password" type="password"
-									th:classappend="${#fields.hasErrors('password') ? 'is-invalid' : ''}"
+								
 									 class="form-control"
 									id="passwordField" placeholder="Password">
 
-								<div th:each="e : ${#fields.errors('password')}"
-									class="invalid-feedback" th:text="${e}"></div>
 
 							</div>
 

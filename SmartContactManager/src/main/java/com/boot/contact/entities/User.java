@@ -1,10 +1,6 @@
 package com.boot.contact.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.hibernate.validator.constraints.Length;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,8 +11,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -33,9 +31,7 @@ public class User {
 	@Email(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message = "Invalid email")
 	private String email;
 
-	@Pattern(regexp = "((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@%#$]).{4,8})", message = "Password should must contains atleast one number, one small letter, one cap, one character and greater than 4 and should be less than 8")
 	private String password;
-	
 	private String role;
 	private boolean enabled;
 	private String imageUrl;
@@ -45,7 +41,7 @@ public class User {
 	private String about;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-	private List<Contact> contacts = new ArrayList<>();
+	private List<Contact> contacts = new LinkedList<>();
 
 	public User() {
 		super();

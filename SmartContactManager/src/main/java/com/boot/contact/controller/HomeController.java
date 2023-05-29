@@ -1,6 +1,7 @@
 package com.boot.contact.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,9 @@ import jakarta.validation.Valid;
 
 @Controller
 public class HomeController {
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -57,11 +61,12 @@ public class HomeController {
 
 			if (result1.hasErrors()) {
 				System.out.println("Error " + result1.toString());
-				model.addAttribute("user", user);	
+				model.addAttribute("user", user);
 				return "signup";
 			}
-			user.setRole("Role_user");
+			user.setRole("ROLE_USER");
 			user.setEnabled(true);
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
 			System.out.println("Agreement " + agreement);
 			System.out.println("User " + user);
