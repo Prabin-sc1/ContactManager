@@ -42,9 +42,9 @@ public class HomeController {
 		return "signup";
 	}
 
-	@RequestMapping("/login")
+	@RequestMapping("/signin")
 	public String login() {
-		return "login";
+		return "signin";
 	}
 
 	// handler for registering user
