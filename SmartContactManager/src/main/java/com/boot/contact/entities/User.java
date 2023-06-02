@@ -13,6 +13,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class User {
 	private String about;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-	private List<Contact> contacts = new LinkedList<>();
+	private List<Contact> contacts = new ArrayList<>();
 
 	public User() {
 		super();

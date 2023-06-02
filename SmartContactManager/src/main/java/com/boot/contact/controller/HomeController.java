@@ -27,23 +27,27 @@ public class HomeController {
 	private UserRepository userRepository;
 
 	@RequestMapping("/")
-	public String home() {
+	public String home(Model m) {
+		m.addAttribute("title", "Home");
 		return "home";
 	}
 
 	@RequestMapping("/about")
-	public String about() {
+	public String about(Model m) {
+		m.addAttribute("title", "About");
 		return "about";
 	}
 
 	@RequestMapping("/signup")
 	public String signup(Model model) {
+		model.addAttribute("title", "Signup");
 		model.addAttribute("user", new User());
 		return "signup";
 	}
 
 	@RequestMapping("/signin")
-	public String login() {
+	public String login(Model model) {
+		model.addAttribute("title", "Signup");
 		return "signin";
 	}
 
