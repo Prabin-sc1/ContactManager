@@ -121,21 +121,26 @@ public class UserController {
 		User tempUser = this.userRepository.getUserByUserName(name);
 		Pageable of = PageRequest.of(page, 5);
 
-		Page<Contact> contacts = this.contactRepository. findContactByUser(tempUser.getId(), of);
+		Page<Contact> contacts = this.contactRepository.findContactByUser(tempUser.getId(), of);
 		m.addAttribute("contacts", contacts);
 		m.addAttribute("currentPage", page);
 		m.addAttribute("totalPages", contacts.getTotalPages());
 		return "normal/show_contact";
 	}
-	
-	
-	//working of single contact
+
+	// working of single contact
 	@RequestMapping("/{cid}/contact")
-	public String showContactDetail(@PathVariable("cid") Integer cid, Model model) {
-		System.out.println("CID "+cid);
+	public String showContactDetail(@PathVariable("cid") Integer cid, Model model, Principal p) {
+		System.out.println("CID " + cid);
 		Optional<Contact> contactOptional = this.contactRepository.findById(cid);
 		Contact contact = contactOptional.get();
-		model.addAttribute("contact",contact);
+		String name = p.getName();
+		User user = this.userRepository.getUserByUserName(name);
+		if (user.getId() == contact.getUser().getId()) {
+			model.addAttribute("contact", contact);
+			model.addAttribute("title",contact.getName());
+		}
+
 		return "normal/contact_detail";
 	}
 

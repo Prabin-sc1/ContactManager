@@ -1,59 +1,66 @@
 <!doctype html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
-	th:replace="normal/base::Layout(~{::div})">
+	th:replace="normal/base::Layout(~{::section})">
 <head>
 <meta charset="UTF-8" />
 <title>contact details</title>
 </head>
 <body>
-	<div class="card mr-3 ml-4">
-		<div class="card-body">
-			<div class="container text-center">
-				<img class="contact_image" style="height: 200px; width: 200px;"
-					src="" th:src="@{'/img/'+${contact.image}}" alt="profile photo" />
-				<h3 class="mt-3">
-					<span th:text="${contact.name}"></span>(<span
-						th:text="${contact.nickName}"></span>)
-				</h3>
-				<table class="table">
-					<thead>
-						<tr>
-							<th scope="col">#Id</th>
-							<th scope="col">ID#181728<span th:text="${contact.cid}"></span></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">Email</th>
-							<td><span th:text="${contact.email}"></span></td>
-						</tr>
-						<tr>
-							<th scope="row">Phone</th>
-							<td><span th:text="${contact.phone}"></span></td>
-						</tr>
-						<tr>
-							<th scope="row">Work</th>
-							<td><span th:text="${contact.work}"></span></td>
-						</tr>
-					</tbody>
+	<section>
+		<div class="card mr-3 ml-4">
+			<div class="card-body" th:if=${contact}>
+				<div class="container text-center">
+					<img class="contact_image" style="height: 200px; width: 200px;"
+						src="" th:src="@{'/img/'+${contact.image}}" alt="profile photo" />
+					<h3 class="mt-3">
+						<span th:text="${contact.name}"></span>(<span
+							th:text="${contact.nickName}"></span>)
+					</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">#Id</th>
+								<th scope="col">ID#181728<span th:text="${contact.cid}"></span></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">Email</th>
+								<td><span th:text="${contact.email}"></span></td>
+							</tr>
+							<tr>
+								<th scope="row">Phone</th>
+								<td><span th:text="${contact.phone}"></span></td>
+							</tr>
+							<tr>
+								<th scope="row">Work</th>
+								<td><span th:text="${contact.work}"></span></td>
+							</tr>
+						</tbody>
 
-				</table>
-				<div class="description mt-3">
-					<h3>Contact Description</h3>
-					<th:block th:utext="${contact.description}">
-					</th:block>
-				</div>
+					</table>
+					<div class="description mt-3">
+						<h3>Contact Description</h3>
+						<th:block th:utext="${contact.description}">
+						</th:block>
+					</div>
 
-				<div class="container">
+					<div class="container">
 
 
-					<button class="btn btn-danger btn-sm">Delete</button>
-					<button class="btn btn-primary btn-sm">Edit</button>
-					<button class="btn btn-success btn-sm">View</button>
+						<button class="btn btn-danger btn-sm">Delete</button>
+						<button class="btn btn-primary btn-sm">Edit</button>
+						<button class="btn btn-success btn-sm">View</button>
 
+					</div>
 				</div>
 			</div>
+
 		</div>
-	</div>
+
+		<h1 class="text-center p-3 bg-danger text-white"
+			th:unless="${contact}">You don't have permission to see this
+			contact...</h1>
+	</section>
 </body>
 </html>
