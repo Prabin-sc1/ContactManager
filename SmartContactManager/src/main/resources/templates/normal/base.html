@@ -56,14 +56,17 @@
 	<!--a.item*5  -->
 	<div class="sidebar mt-2">
 
-		<span th:onclick="toggleSidebar()" class="crossBtn">&times;</span> 
-		<a
-			href="#" th:href="@{/user/index}" class="item"><i class="fa-solid fa-house"></i> Home</a>
-			 <a href="#" th:href="@{/user/show-contact/0}" class="item"><i class="fa-solid fa-address-book"></i> View Contacts</a> 
-			<a href="#" th:href="@{/user/add-contact}" class="item"><i class="fa-sharp fa-solid fa-plus"></i> Add Contact</a>
-			 <a href="#" class="item"><i class="fa-solid fa-user"></i> Your profile</a>
-			 <a href="#" class="item"> <i class="fa-solid fa-gear"></i> Settings</a>
-		 <a href="#" th:href="@{/logout}" class="item"><i class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+		<span th:onclick="toggleSidebar()" class="crossBtn">&times;</span> <a
+			href="#" th:href="@{/user/index}" class="item"><i
+			class="fa-solid fa-house"></i> Home</a> <a href="#"
+			th:href="@{/user/show-contact/0}" class="item"><i
+			class="fa-solid fa-address-book"></i> View Contacts</a> <a href="#"
+			th:href="@{/user/add-contact}" class="item"><i
+			class="fa-sharp fa-solid fa-plus"></i> Add Contact</a> <a href="#"
+			class="item"><i class="fa-solid fa-user"></i> Your profile</a> <a
+			href="#" class="item"> <i class="fa-solid fa-gear"></i> Settings
+		</a> <a href="#" th:href="@{/logout}" class="item"><i
+			class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
 
 		<div class="divider"></div>
 	</div>
@@ -95,6 +98,33 @@
 	<script src="https://code.jquery.com/jquery-3.7.0.js"
 		integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
 		crossorigin="anonymous"></script>
+
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script>
+	
+	
+	function deleteContact(cid){
+	
+	
+swal({
+  title: "Are you sure?",
+  text: "You want to delete this contact",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    window.location="/user/delete/"+cid; 
+  } else {
+    swal("Your contact is safe!");
+  }
+});
+	}
+	
+	</script>
+
+
 	<script th:src="@{/js/script.js}"></script>
 </body>
 </html>

@@ -7,9 +7,19 @@
 </head>
 <body>
 	<section>
-		<div class="card mr-3 ml-4">
+		<div class="card mr-3 ml-4 ">
 			<div class="card-body">
 				<h1 class="text-center">Your Contacts</h1>
+
+				<div th:if="${session.msg}" class="container">
+
+					<div th:classappend="${'alert-'+session.msg.type}"
+						class="alert text-center" role="alert">
+						<span th:text="${session.msg.content}"></span>
+					</div>
+					<th:block th:text="${@sessionRemover.removeMessageFromSession()}"></th:block>
+				</div>
+
 				<table class="table">
 					<thead class="thead-dark">
 						<tr>
@@ -28,15 +38,13 @@
 								th:src="@{'/img/'+${c.image}}" alt="profile photo" /> <span
 								th:text="${c.name}"></span></td>
 							<td><a href="" th:href="@{'/user/'+${c.cid}+'/contact'}"><span
-								th:text="${c.email}"></span></a></td>
-								
-							<td th:text="${c.phone}"></td>					
-							
-							<td>
-								<button class="btn btn-danger btn-sm">Delete</button>
+									th:text="${c.email}"></span></a></td>
+
+							<td th:text="${c.phone}"></td>
+							<!--th:href="@{'/user/delete/'+${c.cid}}"  -->
+							<td><a href="#" th:onclick="|deleteContact(${c.cid})|" class="btn btn-danger btn-sm">Delete</a>
 								<button class="btn btn-primary btn-sm">Edit</button>
-								<button class="btn btn-success btn-sm">View</button>
-							</td>
+								<button class="btn btn-success btn-sm">View</button></td>
 						</tr>
 					</tbody>
 				</table>
