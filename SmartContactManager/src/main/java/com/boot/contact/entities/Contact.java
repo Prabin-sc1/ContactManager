@@ -19,7 +19,7 @@ public class Contact {
 	private String email;
 	private String phone;
 	private String image;
-	@Column(length = 500)
+	@Column(length = 2000)
 	private String description;
 
 	@ManyToOne

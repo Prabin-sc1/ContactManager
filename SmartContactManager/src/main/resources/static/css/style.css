@@ -101,3 +101,9 @@ sidebar style
 	cursor: right;
 	
 }
+.contact_image{
+	width:30px;
+	height:30px;
+	object-fit:cover;
+	border-radius:50%;
+}
