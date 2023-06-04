@@ -12,6 +12,15 @@
 			<div class="card-body">
 				<h1 class="text-center">Add Contact</h1>
 
+				<div th:if="${session.msg}" class="container">
+
+					<div th:classappend="${'alert-'+session.msg.type}"
+						class="alert text-center" role="alert">
+						<span th:text="${session.msg.content}"></span>
+					</div>
+					<th:block th:text="${@sessionRemover.removeMessageFromSession()}"></th:block>
+				</div>
+
 				<div class="container-fluid mt-1">
 					<div class="row">
 						<div class="col-md-8 offset-md-2">
@@ -25,7 +34,7 @@
 								<div class="input-group">
 									<div class="input-group-prepend">
 										<div class="input-group-text" id="basic-addon1">
-											<i class="fa fa-plus"></i>
+											<i class="fa-solid fa-user"></i>
 										</div>
 									</div>
 									<input type="text" name="name" class="form-control"
@@ -35,7 +44,7 @@
 								<div class="input-group mt-3">
 									<div class="input-group-prepend">
 										<div class="input-group-text" id="basic-addon1">
-											<i class="fa fa-plus"></i>
+											<i class="fa-solid fa-face-smile"></i>
 										</div>
 									</div>
 									<input type="text" name="nickName" class="form-control"
@@ -47,7 +56,7 @@
 								<div class="input-group mt-3">
 									<div class="input-group-prepend">
 										<div class="input-group-text" id="basic-addon1">
-											<i class="fa fa-plus"></i>
+											<i class="fa-solid fa-phone"></i>
 										</div>
 									</div>
 									<input type="number" name="phone" class="form-control"
@@ -57,7 +66,7 @@
 								<div class="input-group mt-3">
 									<div class="input-group-prepend">
 										<div class="input-group-text" id="basic-addon1">
-											<i class="fa fa-plus"></i>
+											<i class="fa-solid fa-envelope"></i>
 										</div>
 									</div>
 									<input type="email" name="email" class="form-control"
@@ -67,14 +76,14 @@
 								<div class="input-group mt-3">
 									<div class="input-group-prepend">
 										<div class="input-group-text" id="basic-addon1">
-											<i class="fa fa-plus"></i>
+											<i class="fa-solid fa-briefcase"></i>
 										</div>
 									</div>
 									<input type="text" name="work" class="form-control"
 										placeholder="Enter work">
 								</div>
 								<div class="form-group mt-3">
-									<textarea name="description" id="description" rows="10"
+									<textarea name="description" id="mytextarea" rows="10"
 										class="form-control" placeholder="Enter contact description"></textarea>
 								</div>
 								<div class="custom-file">
@@ -93,6 +102,14 @@
 				</div>
 			</div>
 		</div>
+		<script
+			src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"
+			referrerpolicy="origin"></script>
+		<script>
+      tinymce.init({
+        selector: '#mytextarea'
+      });
+    </script>
 	</section>
 </body>
 </html>

@@ -21,6 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.boot.contact.dao.UserRepository;
 import com.boot.contact.entities.Contact;
 import com.boot.contact.entities.User;
+import com.boot.contact.helper.MyMessage;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -56,7 +59,7 @@ public class UserController {
 	// processing contact
 	@PostMapping("/process-contact")
 	public String processContact(@ModelAttribute Contact contact, @RequestParam() MultipartFile img,
-			Principal principal) {
+			Principal principal, HttpSession session) {
 		try {
 
 			String name = principal.getName();
@@ -78,11 +81,13 @@ public class UserController {
 			contact.setUser(user);
 			user.getContacts().add(contact);
 			this.userRepository.save(user);
-			System.out.println("Data " + contact);
-			System.out.println("Added to database");
+//			System.out.println("Data " + contact);
+//			System.out.println("Added to database");
+			session.setAttribute("msg", new MyMessage("Contact Added","success"));
 		} catch (Exception e) {
 			System.out.println("ERROR " + e.getMessage());
 			e.printStackTrace();
+			session.setAttribute("msg", new MyMessage("Unable to add Contact","danger"));
 		}
 		System.out.println(img.getOriginalFilename());
 		return "normal/add_contact";
