@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.boot.contact.dao.ContactRepository;
 import com.boot.contact.dao.UserRepository;
 import com.boot.contact.entities.Contact;
 import com.boot.contact.entities.User;
@@ -31,6 +33,9 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private ContactRepository contactRepository;
 
 	@ModelAttribute
 	public void addCommonData(Model model, Principal principal) {
@@ -83,15 +88,34 @@ public class UserController {
 			this.userRepository.save(user);
 //			System.out.println("Data " + contact);
 //			System.out.println("Added to database");
-			session.setAttribute("msg", new MyMessage("Contact Added","success"));
+			session.setAttribute("msg", new MyMessage("Contact Added", "success"));
 		} catch (Exception e) {
 			System.out.println("ERROR " + e.getMessage());
 			e.printStackTrace();
-			session.setAttribute("msg", new MyMessage("Unable to add Contact","danger"));
+			session.setAttribute("msg", new MyMessage("Unable to add Contact", "danger"));
 		}
 		System.out.println(img.getOriginalFilename());
 		return "normal/add_contact";
 
+	}
+
+	// show contacts handler
+
+	@GetMapping("/show-contact")
+	public String showContact(Model m, Principal p) {
+		m.addAttribute("title", "Show user contacts");
+		/*
+		 * this is one of the way to get list of contact but one thing we have to keep
+		 * in mind is we have to manage pagination too so there is more better way than
+		 * this so why not String name = p.getName(); User tempUser =
+		 * this.userRepository.getUserByUserName(name); List<Contact> contacts =
+		 * tempUser.getContacts(); m.addAttribute("contact",contacts);
+		 */
+		String name = p.getName();
+		User tempUser = this.userRepository.getUserByUserName(name);
+		List<Contact> contacts = this.contactRepository.findContactByUser(tempUser.getId());
+		m.addAttribute("contacts", contacts);
+		return "normal/show_contact";
 	}
 
 }
