@@ -10,10 +10,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -101,8 +105,8 @@ public class UserController {
 
 	// show contacts handler
 
-	@GetMapping("/show-contact")
-	public String showContact(Model m, Principal p) {
+	@GetMapping("/show-contact/{page}")
+	public String showContact(@PathVariable("page") Integer page, Model m, Principal p) {
 		m.addAttribute("title", "Show user contacts");
 		/*
 		 * this is one of the way to get list of contact but one thing we have to keep
@@ -112,9 +116,14 @@ public class UserController {
 		 * tempUser.getContacts(); m.addAttribute("contact",contacts);
 		 */
 		String name = p.getName();
+
 		User tempUser = this.userRepository.getUserByUserName(name);
-		List<Contact> contacts = this.contactRepository.findContactByUser(tempUser.getId());
+		Pageable of = PageRequest.of(page, 5);
+
+		Page<Contact> contacts = this.contactRepository. findContactByUser(tempUser.getId(), of);
 		m.addAttribute("contacts", contacts);
+		m.addAttribute("currentPage", page);
+		m.addAttribute("totalPages", contacts.getTotalPages());
 		return "normal/show_contact";
 	}
 
