@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -138,13 +139,13 @@ public class UserController {
 		User user = this.userRepository.getUserByUserName(name);
 		if (user.getId() == contact.getUser().getId()) {
 			model.addAttribute("contact", contact);
-			model.addAttribute("title",contact.getName());
+			model.addAttribute("title", contact.getName());
 		}
 
 		return "normal/contact_detail";
 	}
-	
-	//deleting contact
+
+	// deleting contact
 	@GetMapping("/delete/{cid}")
 	public String deleteContact(@PathVariable("cid") Integer cid, HttpSession session) {
 //		Optional<Contact> optionalContact = this.contactRepository.findById(cid);
@@ -153,9 +154,48 @@ public class UserController {
 		contact.setUser(null);
 //		int id = contact.getUser().getId();
 		this.contactRepository.delete(contact);
-		session.setAttribute("msg", new MyMessage("Contact deleted successfully ","success"));
+		session.setAttribute("msg", new MyMessage("Contact deleted successfully ", "success"));
 		return "redirect:/user/show-contact/0";
-		
+
+	}
+
+	// code for opening update form
+	@PostMapping("/update-contact/{cid}")
+	public String updateContact(@PathVariable("cid") Integer cid, Model m) {
+		m.addAttribute("title", "Update Contact");
+		Contact contact = this.contactRepository.findById(cid).get();
+		m.addAttribute("contact", contact);
+		return "normal/update_form";
+	}
+
+	// update contact handler
+	@RequestMapping(value = "/process-update", method = RequestMethod.POST)
+	public String updateHandler(@ModelAttribute Contact contact, @RequestParam("img") MultipartFile img, Model model,
+			HttpSession session, Principal principal) {
+		try {
+			Contact oldContact = this.contactRepository.findById(contact.getCid()).get();
+			if (!img.isEmpty()) {
+				// delete old one
+				File deleteFile = new ClassPathResource("static/img").getFile();
+				File f = new File(deleteFile, oldContact.getImage());
+				f.delete();
+				// add new one
+				File tempFile = new ClassPathResource("static/img").getFile();
+				Path path = Paths.get(tempFile.getAbsolutePath() + File.separator + img.getOriginalFilename());
+				Files.copy(img.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				contact.setImage(img.getOriginalFilename());
+			} else {
+				contact.setImage(oldContact.getImage());
+			}
+			User user = this.userRepository.getUserByUserName(principal.getName());
+			contact.setUser(user);
+			this.contactRepository.save(contact);
+			session.setAttribute("msg", new MyMessage("Your contact is updated successfully!", "success"));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/user/"+contact.getCid()+"/contact";
 	}
 
 }

@@ -10,12 +10,21 @@
 		<div class="card mr-3 ml-4">
 			<div class="card-body" th:if=${contact}>
 				<div class="container text-center">
+					<div th:if="${session.msg}" class="container">
+
+						<div th:classappend="${'alert-'+session.msg.type}"
+							class="alert text-center" role="alert">
+							<span th:text="${session.msg.content}"></span>
+						</div>
+						<th:block th:text="${@sessionRemover.removeMessageFromSession()}"></th:block>
+					</div>
 					<img class="contact_image" style="height: 200px; width: 200px;"
 						src="" th:src="@{'/img/'+${contact.image}}" alt="profile photo" />
 					<h3 class="mt-3">
 						<span th:text="${contact.name}"></span>(<span
 							th:text="${contact.nickName}"></span>)
 					</h3>
+
 					<table class="table">
 						<thead>
 							<tr>
@@ -46,8 +55,11 @@
 					</div>
 
 					<div class="container">
-						<a href="#" th:onclick="|deleteContact(${contact.cid})|" class="btn btn-danger btn-sm ">Delete</a>
-						<button class="btn btn-primary btn-sm">Edit</button>
+						<a href="#" th:onclick="|deleteContact(${contact.cid})|"
+							class="btn btn-danger btn-sm ">Delete</a>
+							<form method="post" th:action="@{'/user/update-contact/'+${contact.cid}}">
+								<button class="btn btn-primary btn-sm">Edit</button>
+								</form>
 						<button class="btn btn-success btn-sm">View</button>
 
 					</div>
