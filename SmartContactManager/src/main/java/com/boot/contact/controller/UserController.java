@@ -147,13 +147,11 @@ public class UserController {
 
 	// deleting contact
 	@GetMapping("/delete/{cid}")
-	public String deleteContact(@PathVariable("cid") Integer cid, HttpSession session) {
-//		Optional<Contact> optionalContact = this.contactRepository.findById(cid);
-//		Contact contact = optionalContact.get()
+	public String deleteContact(@PathVariable("cid") Integer cid, HttpSession session, Principal p) {
 		Contact contact = this.contactRepository.findById(cid).get();
-		contact.setUser(null);
-//		int id = contact.getUser().getId();
-		this.contactRepository.delete(contact);
+		User tempUser = this.userRepository.getUserByUserName(p.getName());
+		tempUser.getContacts().remove(contact);
+		this.userRepository.save(tempUser);
 		session.setAttribute("msg", new MyMessage("Contact deleted successfully ", "success"));
 		return "redirect:/user/show-contact/0";
 
@@ -195,7 +193,7 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/user/"+contact.getCid()+"/contact";
+		return "redirect:/user/" + contact.getCid() + "/contact";
 	}
 
 }
