@@ -20,6 +20,11 @@
 					<th:block th:text="${@sessionRemover.removeMessageFromSession()}"></th:block>
 				</div>
 
+				<div class="search-controller my-4">
+					<input type="text" class="form-control"
+						placeholder="Search your contacts" / >
+				</div>
+
 				<table class="table">
 					<thead class="thead-dark">
 						<tr>
@@ -35,17 +40,18 @@
 							<th scope="row" th:text="
 							'ID#181728'+${c.cid}"></th>
 							<td><img class="contact_image" src=""
-								th:src="@{'/img/'+${c.image}}" alt="profile photo" />
-								 <span
+								th:src="@{'/img/'+${c.image}}" alt="profile photo" /> <span
 								th:text="${c.name}"></span></td>
 							<td><a href="" th:href="@{'/user/'+${c.cid}+'/contact'}"><span
 									th:text="${c.email}"></span></a></td>
 
 							<td th:text="${c.phone}"></td>
 							<!--th:href="@{'/user/delete/'+${c.cid}}"  -->
-							<td><a href="#" th:onclick="|deleteContact(${c.cid})|" class="btn btn-danger btn-sm">Delete</a>
-							<form method="post" th:action="@{'/user/update-contact/'+${c.cid}}">
-								<button class="btn btn-primary btn-sm">Edit</button>
+							<td><a href="#" th:onclick="|deleteContact(${c.cid})|"
+								class="btn btn-danger btn-sm">Delete</a>
+								<form method="post"
+									th:action="@{'/user/update-contact/'+${c.cid}}">
+									<button class="btn btn-primary btn-sm">Edit</button>
 								</form>
 								<button class="btn btn-success btn-sm">View</button></td>
 						</tr>
